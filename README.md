@@ -26,37 +26,15 @@ Moderne kerkwebsite landing page, naast bestaande aparte blog. In feite dus twee
 
 ```mermaid
 flowchart TD
-    DEV[Developer]
-    GH[GitHub Repository - waar code staat]
-    VC[Vercel - website hosting]
-    SITE[Next.js - landing page website]
-    DA[DirectAdmin - server beheer]
-    WB[Wordpress - website beheer]
-    BS[Blogschrijver]
-    BLOG[Wordpress - Blog]
+    DEV["Developer"] --> GH["GitHub repository"]
+    GH --> VC["Vercel build en hosting"]
+    VC --> SITE["Next.js landing page"]
 
-    DEV --> GH
-    GH --> VC
-    VC --> SITE
-    DA --> WB
-    WB --> BLOG
-    BS --> WB
-    DEV --> DA
-
-    <!-- %% Classes
-    classDef dev fill:#E3F2FD,stroke:#1E88E5,color:#0D47A1;
-    classDef infra fill:#E8F5E9,stroke:#43A047,color:#1B5E20;
-    classDef web fill:#FFF3E0,stroke:#FB8C00,color:#E65100;
-
-    %% Assign
-    class DEV,BS dev;
-    class GH,VC,SITE,DA,WB infra;
-    class SITE,BLOG web; -->
+    DEV --> DA["DirectAdmin / Vimexx"]
+    DA --> WP["WordPress beheer"]
+    BS["Blogschrijver"] --> WP
+    WP --> BLOG["WordPress blog"]
 ```
-
-🔵 Mensen
-🟢 Platform
-🟠 Website
 
 ## Hoe werkt de deployment?
 
