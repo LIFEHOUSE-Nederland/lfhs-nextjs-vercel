@@ -37,7 +37,7 @@ Een moderne, snelle one-pager website voor een Christelijke kerkgemeenschap. De 
 
 ### Veiligheid
 - ✅ **HTTPS only** - moderne TLS configuratie
-- ✅ **Security headers** (CSP, HSTS, X-Frame-Options)
+- ✅ **Security headers** (nonce-based CSP, HSTS, X-Frame-Options)
 - ✅ **Minimaal aanvalsoppervlak** - geen database, geen PHP
 - ✅ **DDoS bescherming** via CDN
 
@@ -83,16 +83,17 @@ Developer → Git Push → GitHub → Vercel Build → Global CDN → Gebruiker
 
 ### DNS Configuratie (Vimexx)
 
-**Optie A: Path-based routing**
+**Optie A: Subdomain (voorkeur)**
+```
+kerk.nl → Vercel (Next.js one-pager)
+www.kerk.nl → Vercel (optionele alias)
+blog.kerk.nl → WordPress (Vimexx)
+```
+
+**Optie B: Path-based routing (fallback)**
 ```
 kerk.nl → Vercel (Next.js one-pager)
 kerk.nl/blog → WordPress (Vimexx)
-```
-
-**Optie B: Subdomain**
-```
-www.kerk.nl → Vercel (Next.js one-pager)
-blog.kerk.nl → WordPress (Vimexx)
 ```
 
 ### DNS Records (Vimexx)
@@ -104,6 +105,10 @@ Value: [Vercel IP - wordt gegeven na deployment]
 Type: CNAME
 Name: www
 Value: cname.vercel-dns.com
+
+Type: A of CNAME
+Name: blog
+Value: [Vimexx IP of WordPress host]
 ```
 
 ---
@@ -163,7 +168,7 @@ kerk-website/
 
 ### 5. Footer
 - Copyright
-- **Link naar WordPress blog** (`href="/blog"` of `href="https://blog.kerk.nl"`)
+- **Link naar WordPress blog** (primair `href="https://blog.kerk.nl"`, alleen bij fallback `href="/blog"`)
 - Privacy statement (optioneel)
 
 ---
@@ -255,8 +260,9 @@ export default function sitemap() {
 
 ## Beveiliging
 
-### HTTP Headers (next.config.ts)
+### HTTP Headers (next.config.ts + middleware/proxy)
 ```typescript
+// next.config.ts
 async headers() {
   return [
     {
@@ -265,15 +271,34 @@ async headers() {
         { key: 'X-Frame-Options', value: 'DENY' },
         { key: 'X-Content-Type-Options', value: 'nosniff' },
         { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-        {
-          key: 'Content-Security-Policy',
-          value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"
-        },
+        { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
       ],
     },
   ]
 }
 ```
+
+```typescript
+// middleware.ts of edge/proxy laag
+export function buildCsp(nonce: string) {
+  return [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
+    `style-src 'self' 'nonce-${nonce}'`,
+    "img-src 'self' data: https:",
+    "font-src 'self' data: https:",
+    "connect-src 'self'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "upgrade-insecure-requests",
+  ].join('; ')
+}
+```
+
+- CSP wordt per request opgebouwd met een nonce; gebruik dus geen `'unsafe-inline'`
+- Hardcode de CSP niet als vaste string in `next.config.ts`; de nonce moet op request-niveau worden gezet
+- Als `/blog` als fallback wordt gebruikt, beheer de CSP en andere security headers voor WordPress apart
 
 ### SSL/TLS
 - Automatisch via Vercel/Cloudflare
@@ -311,8 +336,13 @@ async headers() {
 
 ### WordPress Blog Routing
 
-**Als /blog path:**
-Voeg Vimexx proxy toe bij DNS of gebruik Vercel rewrites:
+**Voorkeur: subdomain**
+- Gebruik `blog.kerk.nl` als aparte DNS record naar WordPress
+- Link vanuit de landing page direct naar `https://blog.kerk.nl`
+- Dit houdt caching, CSP en hosting-configuratie het eenvoudigst
+
+**Fallback: /blog path**
+Voeg alleen als back-up Vimexx proxy toe bij DNS of gebruik Vercel rewrites:
 ```typescript
 // next.config.ts
 async rewrites() {
@@ -325,8 +355,7 @@ async rewrites() {
 }
 ```
 
-**Als subdomain (eenvoudiger):**
-Gewoon link naar `https://blog.kerk.nl` (aparte DNS record bij Vimexx)
+Bij deze fallback moet je ook redirects, cookies, canonical URLs en security headers voor WordPress extra goed controleren.
 
 ---
 
@@ -381,7 +410,7 @@ npx serve@latest out
 ```env
 # .env.local
 NEXT_PUBLIC_SITE_URL=https://kerk.nl
-NEXT_PUBLIC_BLOG_URL=https://kerk.nl/blog
+NEXT_PUBLIC_BLOG_URL=https://blog.kerk.nl
 ```
 
 ---

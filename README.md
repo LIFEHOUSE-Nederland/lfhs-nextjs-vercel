@@ -1,6 +1,6 @@
 # LFHS Website
 
-Moderne kerkwebsite landing page, naast bestaande aparte blog. In feite dus twee volledig aparte websites: 
+Moderne kerkwebsite landing page, naast bestaande aparte blog. In feite dus twee volledig aparte websites, met voorkeur voor een aparte blog-subdomain:
 * nieuwe website voor **landing page**: gebouwd met *Next.js* en gehost op *Vercel*
 * oude website voor de **blog**: gebouwd met *Wordpress* en gehost op *Vimexx*
 
@@ -14,6 +14,13 @@ Moderne kerkwebsite landing page, naast bestaande aparte blog. In feite dus twee
 | DNS | Vimexx |
 | Blog | WordPress op Vimexx Hosting |
 | Database (blog) | MySQL (via Vimexx) |
+
+## Routing & Security
+
+- **Voorkeursrouting**: `blog.kerk.nl` wijst direct naar WordPress op Vimexx
+- **Fallback routing**: `/blog` alleen gebruiken als subdomain-routing niet haalbaar is, via proxy of rewrites
+- **CSP aanpak**: nonce-based Content Security Policy, dus geen `'unsafe-inline'`
+- **Implementatie-opmerking**: bouw de CSP per request op in middleware, edge of reverse proxy; zet dit niet als vaste header-string in `next.config.ts`
 
 ## Architectuur
 
@@ -61,11 +68,18 @@ flowchart TD
 
 ## DNS Configuratie (Vimexx)
 
+Voorkeur:
+- hoofdsite via Vercel
+- blog via `blog.kerk.nl` naar WordPress
+
+Fallback:
+- `/blog` via proxy/rewrite als een apart subdomein niet mogelijk is
+
 | Record | Waarde | Doel |
 |---|---|---|
 | `A` / `CNAME` (root) | `cname.vercel-dns.com` | Hoofdsite → Vercel |
 | `CNAME` (www) | `cname.vercel-dns.com` | www → Vercel |
-| `A` of `CNAME` (blog) | Vimexx IP / subdomein | Blog → WordPress |
+| `A` of `CNAME` (blog) | Vimexx IP / WordPress host | `blog.kerk.nl` → WordPress |
 
 ## Lokaal ontwikkelen
 
