@@ -1,6 +1,8 @@
 # LFHS Website
 
-Moderne kerkwebsite gebouwd met **Next.js** en gehost op **Vercel**, met een aparte WordPress-blogomgeving op Vimexx.
+Moderne kerkwebsite landing page, naast bestaande aparte blog. In feite dus twee volledig aparte websites: 
+* nieuwe website voor **landing page**: gebouwd met *Next.js* en gehost op *Vercel*
+* oude website voor de **blog**: gebouwd met *Wordpress* en gehost op *Vimexx*
 
 ## Tech Stack
 
@@ -16,53 +18,37 @@ Moderne kerkwebsite gebouwd met **Next.js** en gehost op **Vercel**, met een apa
 ## Architectuur
 
 ```mermaid
-graph TB
-    subgraph "Gebruiker"
-        User[👤 Bezoeker<br/>Desktop/Mobiel]
-    end
+flowchart TD
+    DEV[Developer]
+    GH[GitHub Repository - waar code staat]
+    VC[Vercel - website hosting]
+    SITE[Next.js - landing page website]
+    DA[DirectAdmin - server beheer]
+    WB[Wordpress - website beheer]
+    BS[Blogschrijver]
+    BLOG[Wordpress - Blog]
 
-    subgraph "DNS Layer - Vimexx"
-        DNS[🌐 DNS Server<br/>Vimexx]
-    end
+    DEV --> GH
+    GH --> VC
+    VC --> SITE
+    DA --> WB
+    WB --> BLOG
+    BS --> WB
+    DEV --> DA
 
-    subgraph "Next.js Application"
-        Dev[👨‍💻 Developer]
-        Repo[📦 Git Repository<br/>GitHub]
-        Build[⚙️ Build Process<br/>Next.js Static Export]
-    end
+    %% Classes
+    classDef dev fill:#E3F2FD,stroke:#1E88E5,color:#0D47A1;
+    classDef infra fill:#E8F5E9,stroke:#43A047,color:#1B5E20;
+    classDef web fill:#FFF3E0,stroke:#FB8C00,color:#E65100;
 
-    subgraph "Hosting - Vercel"
-        CDN[🌍 Global CDN<br/>100+ Edge Locations]
-        Static[📄 Static Files<br/>HTML/CSS/JS]
-        SSL[🔒 Auto SSL/HTTPS<br/>Let's Encrypt]
-    end
-
-    subgraph "WordPress - Vimexx"
-        WP[📝 WordPress Blog<br/>Vimexx Hosting]
-        WPDB[(💾 MySQL Database)]
-    end
-
-    User -->|"kerk.nl"| DNS
-    DNS -->|"Root domain"| CDN
-    DNS -->|"/blog of blog.kerk.nl"| WP
-
-    Dev -->|"Git Push"| Repo
-    Repo -->|"Trigger Build"| Build
-    Build -->|"Deploy Static Files"| CDN
-
-    CDN --> Static
-    CDN --> SSL
-
-    Static -.->|"Link naar blog"| WP
-
-    WP --> WPDB
-
-    style CDN fill:#0ea5e9
-    style Static fill:#10b981
-    style SSL fill:#22c55e
-    style WP fill:#f59e0b
-    style DNS fill:#8b5cf6
+    %% Assign
+    class DEV,BS dev;
+    class GH,VC,SITE,DA,WB infra;
+    class SITE,BLOG web;
 ```
+🔵 Mensen
+🟢 Platform
+🟠 Website
 
 ## Hoe werkt de deployment?
 
