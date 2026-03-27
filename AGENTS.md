@@ -526,3 +526,122 @@ export const content = {
 - Test mobile-first development
 
 **Prioriteit:** Snelheid > Features. Houd het simpel, statisch en snel.
+
+---
+
+## Development Workflow (Belangrijk)
+
+### Werkwijze (altijd volgen)
+
+Werk iteratief in kleine stappen:
+
+1. Maak een GitHub Issue
+2. Maak een feature branch vanaf `main`
+3. Maak een checkpoint commit
+4. Laat Codex één duidelijke taak uitvoeren
+5. Run alle checks (lint, typecheck, build)
+6. Test lokaal (mobile + desktop)
+7. Open een Pull Request
+8. Review (zelf + Codex)
+9. Merge naar main → automatische deploy
+
+---
+
+## Definition of Done (DoD)
+
+Een taak is pas klaar als ALLES hieronder klopt:
+
+### Code kwaliteit
+- [ ] TypeScript errors = 0
+- [ ] ESLint warnings = 0
+- [ ] Geen ongebruikte code/imports
+- [ ] Component heeft één duidelijke verantwoordelijkheid
+
+### Performance
+- [ ] Geen onnodige client-side JS
+- [ ] Geen zware libraries toegevoegd
+- [ ] Images geoptimaliseerd (geen grote raw images)
+- [ ] Geen layout shift (CLS issues)
+
+### UI/UX
+- [ ] Mobile-first correct
+- [ ] Desktop correct
+- [ ] Consistente spacing (Tailwind scale)
+- [ ] Geen visuele bugs (overlap, clipping)
+
+### Accessibility (minimaal)
+- [ ] Semantic HTML (section, nav, h1-h3)
+- [ ] Alt tags op alle images
+- [ ] Buttons/links duidelijk
+- [ ] Contrast voldoende
+
+### SEO
+- [ ] Correct gebruik van headings (1x h1)
+- [ ] Content logisch gestructureerd
+- [ ] Geen lege sections
+
+### Build & test
+- [ ] `npm run build` werkt
+- [ ] Geen console errors
+- [ ] Links werken (intern + blog)
+
+---
+
+## Codex Usage Rules
+
+Gebruik Codex altijd met duidelijke instructies:
+
+### Altijd meegeven:
+- Doel van de taak
+- Scope (wat WEL en NIET aanpassen)
+- Definition of Done
+- Performance constraint: "no unnecessary JS"
+
+### Voorbeeld prompt:
+Bouw alleen de ServiceInfo component.
+
+Doel:
+Bezoekers snel laten zien wanneer en waar de dienst is.
+
+Requirements:
+
+mobiel eerst
+semantic HTML
+geen client-side state
+snelle scanbare layout
+
+Niet doen:
+
+geen animaties
+geen extra libraries
+geen wijzigingen buiten deze component
+
+---
+
+## Belangrijke Regels (Hard)
+
+❌ Niet doen:
+- Geen state management libs
+- Geen API routes
+- Geen server-side rendering
+- Geen over-engineering
+- Geen grote UI libraries toevoegen
+
+✅ Altijd doen:
+- Static-first denken
+- Simpelste oplossing kiezen
+- Code schrijven die juniors begrijpen
+- Kleine commits / kleine PR’s
+
+---
+
+## Project Filosofie
+
+Dit is geen applicatie.
+
+Dit is een snelle, duidelijke, gastvrije website.
+
+Elke keuze moet bijdragen aan:
+- snelheid
+- eenvoud
+- vertrouwen voor bezoekers
