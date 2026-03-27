@@ -46,6 +46,7 @@ flowchart TD
     class GH,VC,SITE,DA,WB infra;
     class SITE,BLOG web;
 ```
+
 🔵 Mensen
 🟢 Platform
 🟠 Website
