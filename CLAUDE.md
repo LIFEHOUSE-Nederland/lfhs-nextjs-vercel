@@ -53,7 +53,7 @@ Een moderne, snelle one-pager website voor een Christelijke kerkgemeenschap. De 
 - **Icons:** Lucide React
 
 ### Build & Deployment
-- **Package Manager:** npm/pnpm
+- **Package Manager:** npm
 - **Version Control:** Git (GitHub/GitLab)
 - **Hosting:** Vercel (primair) of Cloudflare Pages
 - **CI/CD:** Automatisch via Git push
@@ -408,36 +408,47 @@ Bij deze fallback moet je ook redirects, cookies, canonical URLs en security hea
 
 ### Requirements
 - Node.js 18+
-- npm/pnpm
+- npm
 - Git
 
-### Installatie
+### Repo Setup
 ```bash
-# Create Next.js project
-npx create-next-app@latest kerk-website --typescript --tailwind --app
+# Clone repository
+git clone git@github.com:LIFEHOUSE-Nederland/lfhs-nextjs-vercel.git
+cd lfhs-nextjs-vercel
 
-# Navigate
-cd kerk-website
+# Start from latest main
+git switch main
+git pull
+
+# Create your own feature branch
+git switch -c codex/<feature-name>
 
 # Install dependencies
 npm install
 
-# Development server
+# Start local development server
 npm run dev
+
+# Run checks
+npm run typecheck
+npm run lint
 
 # Build static export
 npm run build
-
-# Preview build
-npx serve@latest out
 ```
 
 ### Environment Variables
 ```env
-# .env.local
-NEXT_PUBLIC_SITE_URL=https://kerk.nl
-NEXT_PUBLIC_BLOG_URL=https://blog.kerk.nl
+# No required .env for current local setup
 ```
+
+### Notes
+- This repo currently needs no database, no server runtime and no required local secrets to run
+- `npm run dev` starts the Next.js dev server on `http://localhost:3000`
+- `npm run build` generates the static output in `out/`
+- Re-run `npm install` after pulling or switching branches if `package.json` or `package-lock.json` changed
+- There is currently no `npm start` script; this project is intended as a static export
 
 ---
 
