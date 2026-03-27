@@ -1,3 +1,11 @@
+---
+name: 🚀 Feature
+about: Nieuwe feature of verbetering
+title: "[FEATURE] "
+labels: enhancement
+assignees: ""
+---
+
 ## 🎯 Doel
 Wat moet deze feature oplossen?
 
