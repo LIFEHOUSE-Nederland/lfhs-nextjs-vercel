@@ -43,7 +43,7 @@ flowchart TD
     BS --> WB
     DEV --> DA
 
-    %% Classes
+    <!-- %% Classes
     classDef dev fill:#E3F2FD,stroke:#1E88E5,color:#0D47A1;
     classDef infra fill:#E8F5E9,stroke:#43A047,color:#1B5E20;
     classDef web fill:#FFF3E0,stroke:#FB8C00,color:#E65100;
@@ -51,7 +51,7 @@ flowchart TD
     %% Assign
     class DEV,BS dev;
     class GH,VC,SITE,DA,WB infra;
-    class SITE,BLOG web;
+    class SITE,BLOG web; -->
 ```
 
 🔵 Mensen
@@ -81,19 +81,63 @@ Fallback:
 | `CNAME` (www) | `cname.vercel-dns.com` | www → Vercel |
 | `A` of `CNAME` (blog) | Vimexx IP / WordPress host | `blog.kerk.nl` → WordPress |
 
-## Lokaal ontwikkelen
+## Ontwikkelsetup
+
+Deze repository is opgezet als een minimale Next.js 15 App Router app met static export. Er is op dit moment geen database, geen server-side runtime en geen verplichte `.env` nodig om lokaal te kunnen ontwikkelen.
+
+### Wat je lokaal nodig hebt
+
+- Node.js 18+  (bij voorkeur een recente LTS-versie)
+- npm
+- Git
+
+### Eerste setup op je machine
 
 ```bash
-# Dependencies installeren
-npm install
+# Repository clonen
+git clone git@github.com:LIFEHOUSE-Nederland/lfhs-nextjs-vercel.git
+cd lfhs-nextjs-vercel
 
-# Development server starten
+# Start vanaf de laatste main
+git switch main
+git pull
+
+# Maak je eigen feature branch
+git switch -c codex/<feature-naam>
+
+# Installeer dependencies
+npm install
+```
+
+### Dagelijkse workflow
+
+```bash
+# Start de lokale development server
 npm run dev
 
-# Productie build testen
+# Controleer TypeScript
+npm run typecheck
+
+# Controleer linting
+npm run lint
+
+# Maak een productie build met static export
 npm run build
-npm run start
 ```
+
+### Wat deze commando's doen
+
+- `npm run dev` start de lokale Next.js dev-server op `http://localhost:3000`
+- `npm run typecheck` controleert of TypeScript zonder errors compileert
+- `npm run lint` draait ESLint over het project
+- `npm run build` maakt een production build en exporteert de statische site naar `out/`
+
+### Handige notities
+
+- Na `git pull` of het switchen naar een andere branch is het slim om opnieuw `npm install` te draaien als `package.json` of `package-lock.json` is gewijzigd
+- Er is geen `npm start` script ingericht, omdat dit project bedoeld is als statische export en niet als Node-server
+- De build-output staat in `out/`; dat is de map die gebruikt kan worden voor static hosting
+- Als `npm run dev` lokaal niet start, controleer dan eerst of poort `3000` al in gebruik is
 
 ## Projectdoelstellingen
 
