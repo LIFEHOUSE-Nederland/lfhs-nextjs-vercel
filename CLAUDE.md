@@ -48,8 +48,8 @@ Een moderne, snelle one-pager website voor een Christelijke kerkgemeenschap. De 
 ### Core
 - **Framework:** Next.js 15 (App Router)
 - **Language:** TypeScript
-- **Styling:** TailwindCSS v4
-- **UI Components:** Shadcn/ui (optioneel)
+- **Styling:** TailwindCSS v4 met design tokens/CSS-variabelen voor LIFEHOUSE rood, wit en grijs
+- **UI Components:** Custom UI eerst; Shadcn/ui alleen waar het functioneel helpt en visueel niet generiek voelt
 - **Icons:** Lucide React
 
 ### Build & Deployment
@@ -123,11 +123,14 @@ kerk-website/
 │   ├── globals.css         # Tailwind imports
 │   └── favicon.ico
 ├── components/
-│   ├── Hero.tsx            # Hero sectie met kerkfoto
-│   ├── About.tsx           # Over ons sectie
-│   ├── Services.tsx        # Diensten/activiteiten
-│   ├── Contact.tsx         # Contactinformatie
-│   ├── Footer.tsx          # Footer met blog link
+│   ├── Hero.tsx            # Welkom + hoofdboodschap + quote
+│   ├── ServiceInfo.tsx     # Zondagsdienst, locatie en livestream
+│   ├── About.tsx           # Over ons, visie, missie en identiteit
+│   ├── Leadership.tsx      # Voorgangers en generatieverhaal
+│   ├── CommunityLinks.tsx  # Socials en blog verwijzingen
+│   ├── Giving.tsx          # ANBI, geven en documenten
+│   ├── Contact.tsx         # Bereikbaarheid en bezoekinformatie
+│   ├── Footer.tsx          # Footer met privacy en blog link
 │   └── Navigation.tsx      # Sticky nav (optioneel)
 ├── public/
 │   ├── images/             # Afbeeldingen
@@ -144,32 +147,55 @@ kerk-website/
 
 ## Component Ontwerp
 
-### 1. Hero Section
-- Kerkfoto of banner
-- Welkomsttekst
-- Call-to-action (bijv. "Bezoek een dienst")
-- Scroll-indicator naar volgende sectie
+### 1. Hero / Welcome
+- Open met `Welkom bij LIFEHOUSE Amsterdam` als duidelijke hoofdboodschap
+- Combineer een warme, huiselijke intro met ruimte voor een korte geloofsquote of profetische tekst
+- Gebruik een primaire CTA richting bezoek aan de zondagse dienst en een secundaire CTA voor livestream of locatie
+- De hero moet voelen als uitnodigend en stedelijk, niet als corporate landing page of standaard kerksjabloon
 
-### 2. About Section
-- Wie zijn wij
-- Onze visie/missie
-- Geschiedenis (optioneel)
+### 2. Service Info
+- Toon de zondagse kerkdienst als eerstvolgende praktische actie: tijd, venue en volledig adres
+- Voeg praktische details toe zoals gratis parkeren op zondag, nabijheid van metro en koffie/thee rondom de dienst
+- Maak livestream-kijken een duidelijke secundaire route
+- Deze sectie moet op mobiel snel scanbaar zijn, bijvoorbeeld met compacte info-blokken
 
-### 3. Services Section
-- Diensten (tijd, locatie)
-- Wekelijkse activiteiten
-- Bijzondere events
+### 3. Over Ons / Missie
+- Leg kort uit wie LIFEHOUSE Amsterdam is: christelijk-evangelisch, Indonesische roots, open voor elke generatie
+- Gebruik `CONNECT, GROW, IMPACT` als terugkerend inhoudelijk en visueel anker
+- Verwerk visie, missie en identiteit in overzichtelijke patronen, niet als lange ononderbroken tekst
+- Laat de toon familiegericht, relevant en missionair zijn
 
-### 4. Contact Section
-- Adres
-- Contactgegevens (email, telefoon)
-- Google Maps embed (optioneel)
-- Social media links
+### 4. Leiderschap & Generaties
+- Geef ruimte aan de huidige voorgangers en aan de oprichters / senior pastors
+- Benadruk continuiteit tussen generaties, mentorschap en "welkom thuis"
+- Werk bij voorkeur met portretten, korte introducties en een persoonlijke toon in plaats van formele bio's
 
-### 5. Footer
-- Copyright
-- **Link naar WordPress blog** (primair `href="https://blog.kerk.nl"`, alleen bij fallback `href="/blog"`)
-- Privacy statement (optioneel)
+### 5. Community Links
+- Bundel socials, worship-content en livestream-archief in een eigen sectie of duidelijke contentstrook
+- Geef de blog een herkenbare plek als `LIFEHOUSE Stories`, met link naar de WordPress-subdomain
+- Houd deze sectie levendig en actueel, zonder de homepage te zwaar te maken
+
+### 6. Giving / ANBI
+- Reserveer een transparante sectie voor geven, ANBI-status, bankgegevens en officiële documenten
+- Documentlinks zoals beleidsplan, jaarbegroting, jaarverslagen en privacyverklaring moeten logisch gegroepeerd zijn
+- Deze sectie moet vertrouwen en zorgvuldigheid uitstralen, niet alleen administratieve tekst
+
+### 7. Contact & Bezoek
+- Herhaal de locatie en bereikbaarheid aan het einde van de pagina
+- Voeg contactadres, routehulp en een duidelijke "plan je bezoek"-achtige afsluiter toe
+- Gebruik alleen een map-embed als die performance en UX niet schaadt
+
+### 8. Footer
+- Houd de footer compact maar volledig: copyright, privacy, ANBI/documenten en blog link
+- **Link naar WordPress blog** blijft primair `href="https://blog.kerk.nl"` en alleen bij fallback `href="/blog"`
+
+### Styling Richting
+- Baseer de visuele richting op een moderne editorial one-pager met duidelijke hiërarchie, royale spacing en sterke typografie
+- Gebruik de LIFEHOUSE-huiskleuren als basis: rood als accentkleur, wit als rustpunt en donkergrijs als dragende neutrale kleur
+- Vermijd paarse gradients, standaard SaaS-cards en een te brave "kerktemplate" uitstraling
+- Kies voor een warme, gastvrije uitstraling waarin thuisgevoel, aanbidding, stad en generaties samenkomen
+- Werk met subtiele animaties en scroll-overgangen, maar houd performance en rust leidend
+- Laat CTA's, sectie-overgangen en beeldgebruik intentional voelen; liever minder elementen met meer richting dan veel losse blokken
 
 ---
 
