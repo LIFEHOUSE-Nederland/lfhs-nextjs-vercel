@@ -4,6 +4,8 @@ Moderne kerkwebsite landing page, naast bestaande aparte blog. In feite dus twee
 * nieuwe website voor **landing page**: gebouwd met *Next.js* en gehost op *Vercel*
 * oude website voor de **blog**: gebouwd met *Wordpress* en gehost op *Vimexx*
 
+In deze repo bouwen we de nieuwe website
+
 ## Tech Stack
 
 | Onderdeel | Technologie |
@@ -21,20 +23,6 @@ Moderne kerkwebsite landing page, naast bestaande aparte blog. In feite dus twee
 - **Fallback routing**: `/blog` alleen gebruiken als subdomain-routing niet haalbaar is, via proxy of rewrites
 - **CSP aanpak**: nonce-based Content Security Policy, dus geen `'unsafe-inline'`
 - **Implementatie-opmerking**: bouw de CSP per request op in middleware, edge of reverse proxy; zet dit niet als vaste header-string in `next.config.ts`
-
-## Architectuur
-
-```mermaid
-flowchart TD
-    DEV["Developer"] --> GH["GitHub repository"]
-    GH --> VC["Vercel build en hosting"]
-    VC --> SITE["Next.js landing page"]
-
-    DEV --> DA["DirectAdmin / Vimexx"]
-    DA --> WP["WordPress beheer"]
-    BS["Blogschrijver"] --> WP
-    WP --> BLOG["WordPress blog"]
-```
 
 ## Hoe werkt de deployment?
 
