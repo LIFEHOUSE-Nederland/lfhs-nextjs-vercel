@@ -1,3 +1,4 @@
+import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import ServiceInfo from "@/components/ServiceInfo";
 import About from "@/components/About";
@@ -10,6 +11,7 @@ import Footer from "@/components/Footer";
 export default function HomePage() {
   return (
     <>
+      <Navigation />
       <main>
         <Hero />
         <ServiceInfo />

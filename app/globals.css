@@ -17,3 +17,9 @@ body {
   color: var(--color-brand-gray);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Voorkom dat de sticky nav de sectie-heading afdekt bij anchor navigatie */
+section[id],
+footer[id] {
+  scroll-margin-top: 56px;
+}
