@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>LIFEHOUSE Amsterdam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#ffffff;
+    --ink:#0a0a0a;
+    --ink-2:#1a1a1a;
+    --muted:#8a8a8a;
+    --line:#e8e8e8;
+    --red:#d93636;
+    --gap:clamp(16px,2vw,28px);
+    --pad-x:clamp(20px,5vw,80px);
+    --pad-y:clamp(80px,12vw,180px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv11";scroll-behavior:smooth}
+  body{font-weight:400;line-height:1.5;font-size:16px}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  ul{list-style:none}
+  section{scroll-margin-top:72px}
+
+  /* ===== Header ===== */
+  .header{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px var(--pad-x);
+    background:rgba(255,255,255,.86);
+    backdrop-filter:saturate(140%) blur(10px);
+    -webkit-backdrop-filter:saturate(140%) blur(10px);
+  }
+  .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px;letter-spacing:-.02em}
+  .brand img{width:22px;height:22px}
+  .brand span{display:inline-block;transform:translateY(1px)}
+  .nav{display:flex;gap:36px;align-items:center}
+  .nav a{
+    position:relative;font-weight:700;font-size:15px;letter-spacing:-.005em;
+    color:var(--ink);padding:6px 0;display:inline-flex;align-items:center;gap:10px;
+  }
+  .nav a .dot{
+    width:6px;height:6px;border-radius:50%;background:var(--red);
+    opacity:0;transform:translateX(-4px);transition:opacity .25s ease,transform .25s ease;
+  }
+  .nav a.active .dot,.nav a:hover .dot{opacity:1;transform:translateX(0)}
+  .nav a:hover{color:#000}
+  @media (max-width: 880px){ .nav{display:none} }
+
+  .menu-btn{
+    width:38px;height:38px;border-radius:50%;background:#0a0a0a;color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;border:0;cursor:pointer;
+    transition:transform .25s ease;
+  }
+  .menu-btn:hover{transform:rotate(-18deg)}
+  .menu-btn svg{width:15px;height:15px}
+
+  /* ===== Hero / Slider ===== */
+  .hero{
+    min-height:calc(100vh - 60px);
+    padding:84px var(--pad-x) 60px;
+    display:grid;grid-template-rows:1fr auto;
+    position:relative;
+  }
+  .hero-stage{position:relative;display:grid;align-items:start}
+  .slide{
+    grid-area:1/1;opacity:0;transition:opacity .7s ease;
+    display:grid;grid-template-columns:1fr;gap:24px;align-items:start;
+    pointer-events:none;
+  }
+  .slide.active{opacity:1;pointer-events:auto}
+  @media (max-width:980px){
+    .hero{ min-height:auto; padding-top:72px; padding-bottom:48px; }
+    .slide-figure{ height:clamp(285px,46vh,420px); margin-bottom:36px; }
+  }
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#3a3a3a;
+    margin-bottom:28px;
+  }
+  .eyebrow::before{content:"";width:28px;height:1px;background:var(--ink);display:inline-block}
+  .title{
+    font-weight:800;letter-spacing:-.045em;line-height:.92;
+    font-size:clamp(44px,7.5vw,62px);
+    text-wrap:balance;
+  }
+  .title em{font-style:normal;color:var(--red);font-weight:800}
+  .title .lt{font-weight:300;font-style:italic;letter-spacing:-.04em}
+  .lede{
+    margin-top:0;max-width:42ch;font-size:clamp(15px,1.1vw,18px);color:#3a3a3a;
+  }
+  .hero-cta{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 22px;border-radius:999px;border:1px solid var(--ink);
+    background:var(--ink);color:#fff;font-weight:600;font-size:14px;letter-spacing:-.01em;
+    transition:background .2s ease,color .2s ease,transform .2s ease;
+  }
+  .btn:hover{background:#fff;color:var(--ink);transform:translateY(-1px)}
+  .btn.ghost{background:transparent;color:var(--ink)}
+  .btn.ghost:hover{background:var(--ink);color:#fff}
+  .btn svg{width:16px;height:16px}
+
+  .slide-figure{
+    position:relative;border-radius:18px;overflow:hidden;
+    width:100%;height:clamp(285px,44vh,480px);
+    background:#111;
+  }
+  .slide-figure img{width:100%;height:100%;object-fit:cover}
+  .slide-figure::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.15) 30%, rgba(0,0,0,.55) 75%, rgba(0,0,0,.85) 100%);
+  }
+  .slide-figure{
+    margin-bottom:36px;
+    margin-left:calc(-1 * var(--pad-x)); margin-right:calc(-1 * var(--pad-x));
+    width:calc(100% + 2 * var(--pad-x)); border-radius:0;
+    height:clamp(315px,54vh,540px);
+  }
+  .hero-overlay{
+    position:absolute;z-index:2;
+    top:50%;left:50%;transform:translate(-50%,-50%);
+    width:max-content;max-width:calc(100% - 2 * var(--pad-x));
+    text-align:center;
+    color:#fff;
+  }
+  .hero-overlay .eyebrow{color:rgba(255,255,255,.92);margin-bottom:20px;justify-content:center}
+  .hero-overlay .eyebrow::before{background:rgba(255,255,255,.6)}
+  .hero-overlay .title{color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+  .hero-overlay .title .lt{color:#fff}
+  .slide-figure .tag{
+    position:absolute;left:auto;right:18px;bottom:18px;z-index:2;
+    background:rgba(255,255,255,.22);
+    backdrop-filter:blur(10px) saturate(140%);
+    -webkit-backdrop-filter:blur(10px) saturate(140%);
+    border:1px solid rgba(255,255,255,.35);
+    padding:8px 14px;border-radius:999px;font-size:12px;font-weight:600;color:#fff;
+    display:inline-block;width:max-content;
+  }
+
+  /* Slider chrome */
+  .arrows{
+    position:fixed;left:0;right:0;top:50%;transform:translateY(-50%);
+    display:flex;justify-content:space-between;padding:0 var(--pad-x);pointer-events:none;z-index:40;
+    opacity:0;visibility:hidden;transition:opacity .35s ease,visibility .35s ease;
+  }
+  .arrows.visible{opacity:1;visibility:visible}
+  .arrow{
+    pointer-events:auto;width:62px;height:62px;border-radius:50%;border:1px solid var(--ink);
+    background:rgba(255,255,255,.6);backdrop-filter:blur(6px);
+    display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+    transition:background .2s ease,color .2s ease,transform .2s ease;
+  }
+  .arrow:hover{background:var(--ink);color:#fff;transform:scale(1.04)}
+  .arrow svg{width:18px;height:18px}
+  @media (max-width:880px){ .arrows{display:none} }
+
+  .hero-foot{
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+    padding-top:36px;margin-top:36px;border-top:1px solid var(--line);
+    font-size:13px;color:#555;
+  }
+  .hero-foot .pager{display:flex;align-items:center;gap:12px;font-weight:600;color:var(--ink)}
+  .hero-foot .pager .num{font-variant-numeric:tabular-nums}
+  .hero-foot .bar{flex:1;max-width:280px;height:1px;background:var(--line);position:relative}
+  .hero-foot .bar::after{content:"";position:absolute;top:-1px;left:0;height:3px;width:33%;background:var(--ink);transition:width .5s ease,left .5s ease}
+  .hero-foot.s2 .bar::after{left:33%;width:34%}
+  .hero-foot.s3 .bar::after{left:67%;width:33%}
+  .hero-foot .meta{display:flex;gap:24px;color:#666;font-weight:500}
+
+  /* ===== Generic section ===== */
+  .section{padding:var(--pad-y) var(--pad-x);position:relative}
+  .section + .section{border-top:1px solid var(--line)}
+  .section-head{
+    display:grid;grid-template-columns:.7fr 1.3fr;gap:60px;margin-bottom:80px;align-items:end;
+  }
+  @media (max-width:880px){ .section-head{grid-template-columns:1fr;gap:24px;margin-bottom:48px} }
+  .section-no{
+    font-weight:700;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#9a9a9a;
+    display:flex;align-items:center;gap:12px;
+  }
+  .section-no::before{content:"";width:28px;height:1px;background:#9a9a9a}
+  .h2{
+    font-weight:800;letter-spacing:-.04em;line-height:.95;
+    font-size:clamp(40px,6.5vw,104px);
+  }
+  .h2 .lt{font-weight:300;font-style:italic;letter-spacing:-.035em}
+  .lead-img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:18px;display:block}
+  @media (max-width:880px){ .lead-img{aspect-ratio:16/10} }
+
+  /* ===== Dienst ===== */
+  .dienst-grid{
+    display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:start;
+  }
+  @media (max-width:980px){ .dienst-grid{grid-template-columns:1fr;gap:32px} }
+  .info-list{display:grid;gap:0;border-top:1px solid var(--line)}
+  .info-list .row{
+    display:grid;grid-template-columns:160px 1fr;gap:24px;
+    padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline;
+  }
+  .info-list dt{font-weight:600;color:#777;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+  .info-list dd{font-size:18px;font-weight:500;color:var(--ink)}
+  .info-list dd a{border-bottom:1px solid #ddd}
+  .info-list dd a:hover{border-color:var(--ink)}
+  .info-list dd small{display:block;color:#888;font-weight:400;font-size:14px;margin-top:4px}
+  .dienst-card{
+    position:relative;border-radius:18px;overflow:hidden;aspect-ratio:5/6;background:#111;
+  }
+  .dienst-card img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform .8s ease}
+  .dienst-card:hover img{transform:scale(1.06)}
+  .dienst-card .badge{
+    position:absolute;left:16px;top:16px;background:#fff;color:#111;padding:8px 12px;border-radius:999px;
+    font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:8px;
+  }
+  .dienst-card .badge .live{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px rgba(217,54,54,.15)}
+
+  /* ===== Pillars (CONNECT, GROW, IMPACT) ===== */
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  @media (max-width:880px){ .pillars{grid-template-columns:1fr} }
+  .pillar{
+    padding:48px 36px 56px;border-right:1px solid var(--line);
+    display:flex;flex-direction:column;gap:18px;min-height:280px;
+    transition:background .3s ease;
+  }
+  @media (max-width:880px){ .pillar{border-right:0;border-bottom:1px solid var(--line)} }
+  .pillar:last-child{border-right:0}
+  .pillar:hover{background:#fafafa}
+  .pillar .n{font-size:13px;font-weight:600;color:#9a9a9a;letter-spacing:.08em}
+  .pillar .k{
+    font-size:clamp(34px,3.6vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--ink);
+  }
+  .pillar .v{font-size:18px;color:#3a3a3a;line-height:1.45;max-width:32ch}
+  .pillar .arr{margin-top:auto;color:#aaa}
+
+  .about-lead{
+    display:grid;grid-template-columns:.7fr 1.3fr;gap:60px;margin:0 0 80px;align-items:center;justify-items:center;
+  }
+  @media (max-width:880px){ .about-lead{grid-template-columns:1fr;gap:24px;margin-bottom:48px} }
+  .about-lead .label{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#9a9a9a}
+  .about-lead p{font-size:clamp(20px,2.2vw,30px);font-weight:500;line-height:1.25;letter-spacing:-.02em;color:var(--ink-2);text-wrap:pretty;text-align:center}
+  .about-lead p em{font-style:italic;color:#666;font-weight:400}
+
+  /* Identiteit list */
+  .ident{margin-top:80px;border-top:1px solid var(--line)}
+  .ident .row{
+    display:grid;grid-template-columns:100px 1fr 1.2fr 40px;gap:32px;
+    padding:28px 0;border-bottom:1px solid var(--line);align-items:center;
+    transition:padding .3s ease;
+  }
+  .ident .row:hover{padding-left:14px}
+  .ident .n{font-size:13px;font-weight:600;color:#9a9a9a;letter-spacing:.06em}
+  .ident .k{font-size:clamp(22px,2.2vw,32px);font-weight:700;letter-spacing:-.02em;line-height:1.05}
+  .ident .v{font-size:15px;color:#5a5a5a;line-height:1.5}
+  .ident .arr{justify-self:end;color:#bbb;transition:color .3s ease,transform .3s ease}
+  .ident .row:hover .arr{color:var(--red);transform:translateX(6px)}
+  @media (max-width:880px){
+    .ident .row{grid-template-columns:1fr;gap:6px;padding:22px 0}
+    .ident .arr{display:none}
+  }
+
+  .geven-intro{font-size:clamp(20px,2.2vw,30px);font-weight:500;line-height:1.25;letter-spacing:-.02em;color:var(--ink-2);max-width:900px;margin:0 0 48px;text-wrap:pretty}
+  .geven-intro .ref{color:#888;font-weight:400;white-space:nowrap}
+  .geven-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+  @media (max-width:880px){ .geven-cards{grid-template-columns:1fr} }
+  .geven-card{border:1px solid var(--line);border-radius:18px;padding:40px;display:flex;flex-direction:column;gap:16px;background:#fff}
+  .geven-card .label{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
+  .geven-card p{font-size:18px;line-height:1.5;color:var(--ink-2);margin:0}
+  .geven-card p a{color:var(--ink);border-bottom:1px solid #ddd}
+  .geven-card p a:hover{border-color:var(--ink)}
+  .geven-card .iban{font-size:clamp(22px,2.4vw,30px);font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+  .geven-card .row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:auto}
+  .geven-card .small{font-size:15px;color:#666}
+  .geven-card .copy{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 16px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+  .geven-card .copy:hover{border-color:var(--ink)}
+  /* ===== Voorgangers ===== */
+  .pastors{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+  @media (max-width:980px){ .pastors{grid-template-columns:1fr} }
+  .pastor{
+    border:1px solid var(--line);border-radius:18px;padding:40px;
+    display:flex;flex-direction:column;gap:18px;background:#fff;
+    transition:border-color .25s ease,transform .25s ease,box-shadow .25s ease;
+  }
+  .pastor:hover{border-color:var(--ink);transform:translateY(-3px);box-shadow:0 24px 40px -28px rgba(0,0,0,.15)}
+  .pastor .role{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+  .pastor .name{font-size:clamp(28px,2.6vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1}
+  .pastor .since{font-size:14px;color:#888}
+  .pastor p{font-size:16px;color:#3a3a3a;line-height:1.55}
+  .pastor .sig{margin-top:auto;font-size:14px;font-style:italic;color:#666}
+  .pastor .avatars{display:flex;align-items:center;gap:-8px}
+  .pastor .av{
+    width:64px;height:64px;border-radius:50%;background:#eee;border:3px solid #fff;
+    display:inline-flex;align-items:center;justify-content:center;font-weight:700;letter-spacing:-.02em;
+    color:#444;font-size:22px;
+  }
+  .pastor .av + .av{margin-left:-18px}
+  .pastor .av.red{background:#fdecec;color:var(--red)}
+  .pastor .av.dark{background:#171717;color:#fff}
+  .pastor .av.photo{width:264px;height:264px;padding:0;background:#eee;overflow:hidden}
+  .pastor .av.photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* ===== Socials ===== */
+  .socials{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  @media (max-width:980px){ .socials{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:520px){ .socials{grid-template-columns:1fr} }
+  .social{
+    display:flex;flex-direction:column;justify-content:space-between;gap:60px;
+    padding:28px;border:1px solid var(--line);border-radius:18px;background:#fff;
+    transition:background .25s ease,color .25s ease,border-color .25s ease;min-height:200px;
+  }
+  .social .top{display:flex;align-items:center;justify-content:space-between}
+  .social .plat{display:flex;align-items:center;gap:11px}
+  .social .brand{width:22px;height:22px;color:#bbb;transition:color .25s ease;flex:none}
+  .social:hover .brand{color:#fff}
+  .social .top .arrow{width:18px;height:18px;color:#bbb;transition:color .25s ease,transform .25s ease}
+  .social:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .social:hover .top .arrow{color:#fff;transform:rotate(-45deg) translateX(0)}
+  .social .platform{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#9a9a9a}
+  .social:hover .platform{color:#888}
+  .social .handle{font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+  .social .sub{font-size:14px;color:#9a9a9a;line-height:1.4;margin-top:8px}
+  .social:hover .sub{color:#bbb}
+
+  /* ===== Geven ===== */
+  .geven{display:grid;grid-template-columns:1.1fr .9fr;gap:64px}
+  @media (max-width:980px){ .geven{grid-template-columns:1fr;gap:32px} }
+  .geven .body p{font-size:17px;color:#3a3a3a;margin-bottom:16px;max-width:60ch}
+  .geven h3{font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#9a9a9a;margin:32px 0 16px}
+  .iban-card{
+    background:#0a0a0a;color:#fff;border-radius:18px;padding:36px;
+    display:flex;flex-direction:column;gap:20px;position:relative;overflow:hidden;
+  }
+  .iban-card::before{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;border:1px solid rgba(255,255,255,.08)}
+  .iban-card::after{content:"";position:absolute;right:-30px;top:-30px;width:160px;height:160px;border-radius:50%;border:1px solid rgba(255,255,255,.06)}
+  .iban-card .label{font-size:12px;color:#777;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+  .iban-card .iban{font-size:clamp(22px,2.4vw,30px);font-weight:700;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+  .iban-card .row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+  .iban-card .small{color:#aaa;font-size:14px}
+  .iban-card .copy{
+    background:#fff;color:#0a0a0a;border:0;padding:10px 16px;border-radius:999px;font-weight:600;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+  }
+  .iban-card .copy:hover{background:var(--red);color:#fff}
+
+  .docs{margin-top:24px;border-top:1px solid var(--line)}
+  .docs .row{
+    display:flex;align-items:center;justify-content:space-between;gap:20px;
+    padding:18px 0;border-bottom:1px solid var(--line);
+  }
+  .docs .row:hover{color:var(--ink-2)}
+  .docs .ttl{font-size:16px;font-weight:600;letter-spacing:-.01em}
+  .docs .meta{font-size:13px;color:#9a9a9a}
+  .docs .arr{color:#bbb;transition:color .25s ease,transform .25s ease}
+  .docs .row:hover .arr{color:var(--red);transform:translateX(4px)}
+  .docs .row.disabled{opacity:.5;pointer-events:none}
+
+  /* ===== Contact ===== */
+  .contact{padding:var(--pad-y) var(--pad-x);background:#0a0a0a;color:#fff;border-top:0}
+  .contact .section-no{color:#666}
+  .contact .section-no::before{background:#666}
+  .contact .h2{color:#fff}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:48px;margin-top:80px}
+  @media (max-width:880px){ .contact-grid{grid-template-columns:1fr;gap:32px;margin-top:48px} }
+  .contact .col h4{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#888;margin-bottom:14px;font-weight:700}
+  .contact .col p,.contact .col address{font-size:18px;font-style:normal;color:#fff;line-height:1.45;font-weight:500}
+  .contact .col a{border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:1px}
+  .contact .col a:hover{border-color:var(--red);color:var(--red)}
+  .contact-foot{
+    margin-top:80px;padding-top:32px;border-top:1px solid rgba(255,255,255,.1);
+    display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;color:#888;font-size:13px;
+  }
+  .contact-foot a:hover{color:#fff}
+  .contact-cta{
+    display:inline-flex;align-items:center;gap:14px;margin-top:36px;
+    padding:18px 26px;border-radius:999px;background:#fff;color:#0a0a0a;font-weight:600;
+    transition:background .2s ease;
+  }
+  .contact-cta:hover{background:var(--red);color:#fff}
+
+  /* ===== Drawer ===== */
+  .drawer{
+    position:fixed;inset:0;z-index:60;pointer-events:none;
+  }
+  .drawer .bg{
+    position:absolute;inset:0;background:rgba(0,0,0,.4);opacity:0;transition:opacity .3s ease;
+  }
+  .drawer .panel{
+    position:absolute;right:0;top:0;bottom:0;width:min(440px,90vw);
+    background:#fff;transform:translateX(100%);transition:transform .35s cubic-bezier(.7,.05,.2,1);
+    display:flex;flex-direction:column;
+  }
+  .drawer.open{pointer-events:auto}
+  .drawer.open .bg{opacity:1}
+  .drawer.open .panel{transform:translateX(0)}
+  .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:22px var(--pad-x)}
+  .drawer-close{
+    width:44px;height:44px;border-radius:50%;border:1px solid var(--ink);background:transparent;
+    display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+  }
+  .drawer-close:hover{background:var(--ink);color:#fff}
+  .drawer-nav{padding:24px var(--pad-x) 36px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .drawer-nav a{
+    font-size:32px;font-weight:800;letter-spacing:-.03em;padding:14px 0;
+    display:flex;align-items:center;gap:14px;
+    border-bottom:1px solid var(--line);
+  }
+  .drawer-nav a .n{font-size:13px;font-weight:600;color:#9a9a9a;letter-spacing:.06em;width:28px}
+  .drawer-nav a:hover{color:var(--red)}
+  .drawer-foot{padding:24px var(--pad-x);border-top:1px solid var(--line);font-size:13px;color:#777;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+  /* Tag */
+  .tag-strip{
+    display:flex;align-items:center;gap:18px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9a9a9a;font-weight:700;
+    margin-bottom:24px;
+  }
+  .tag-strip .d{width:6px;height:6px;border-radius:50%;background:var(--red)}
+</style>
+</head>
+<body data-screen-label="01 LIFEHOUSE one-pager">
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <a href="#home" class="brand" aria-label="LIFEHOUSE home">
+      <img src="assets/logo.png" alt="" />
+      <span>lifehouse</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Hoofdnavigatie">
+      <a href="#home" class="active"><span class="dot"></span>home</a>
+      <a href="#dienst"><span class="dot"></span>dienst</a>
+      <a href="#over-ons"><span class="dot"></span>over ons</a>
+      <a href="#geven"><span class="dot"></span>geven</a>
+      <a href="#contact"><span class="dot"></span>contact</a>
+      <a href="https://www.lifehouse.nl/blog/" target="_blank" rel="noopener"><span class="dot"></span>blog</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 8 L20 8 M4 14 L20 14" transform="rotate(-25 12 11)"/></svg>
+    </button>
+  </header>
+
+  <!-- ===== SLIDER ARROWS ===== -->
+  <div class="arrows" aria-hidden="true">
+    <button class="arrow" id="prev" aria-label="Vorige slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 6 L8 12 L14 18"/><path d="M8 12 L20 12"/></svg>
+    </button>
+    <button class="arrow" id="next" aria-label="Volgende slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 6 L16 12 L10 18"/><path d="M4 12 L16 12"/></svg>
+    </button>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section id="home" class="hero" data-screen-label="Hero">
+    <div class="hero-stage">
+      <!-- Slide 1 -->
+      <div class="slide active" data-slide="1">
+        <figure class="slide-figure">
+          <img src="assets/worship.jpg" alt="Worship op zondagochtend bij LIFEHOUSE Amsterdam" />
+          <div class="hero-overlay">
+            <div class="eyebrow">Lifehouse Amsterdam · sinds 1994</div>
+            <h1 class="title">een <em><span style="color:#d93636">thuis</span></em><br/>voor elke<br/><span class="lt">generatie.</span></h1>
+          </div>
+          <span class="tag">Zondag · 10:30u</span>
+        </figure>
+        <div>
+          <p class="lede">Een Christelijk evangelische kerk met Indonesische roots — waar verbinding, groei en impact samenkomen. Elke zondag in Amsterdam Zuidoost.</p>
+          <div class="hero-cta">
+            <a href="#dienst" class="btn">Bezoek een dienst
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12 H19"/><path d="M13 6 L19 12 L13 18"/></svg>
+            </a>
+            <a href="#over-ons" class="btn ghost">Over ons</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide" data-slide="2">
+        <figure class="slide-figure">
+          <img src="assets/worship-night.jpg" alt="Worship night bij LIFEHOUSE Amsterdam" />
+          <div class="hero-overlay">
+            <div class="eyebrow">Onze missie</div>
+            <h1 class="title" style="letter-spacing: -3.8px">connect.<br/>grow.<br/><em>impact.</em></h1>
+          </div>
+          <span class="tag">Worship · Night</span>
+        </figure>
+        <div>
+          <p class="lede">Levens verbinden met Jezus, samen groeien als familie en een positieve impact maken op onze naasten. Drie woorden, één huis.</p>
+          <div class="hero-cta">
+            <a href="#over-ons" class="btn">Lees meer
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12 H19"/><path d="M13 6 L19 12 L13 18"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide" data-slide="3">
+        <figure class="slide-figure">
+          <img src="assets/kerst.jpg" alt="Kerstviering bij LIFEHOUSE Amsterdam — kinderen op het podium" />
+          <div class="hero-overlay">
+            <div class="eyebrow">Welkom in de kerk</div>
+            <h1 class="title">voel je<br/><span class="lt">thuis</span>.</h1>
+          </div>
+          <span class="tag">Familie · Elke generatie</span>
+        </figure>
+        <div>
+          <p class="lede">"Ik ga jullie een huis geven, dat een thuis zal zijn voor elke generatie. Zij zullen zich daar thuis voelen." — Beit Sahur, Israël 2019.</p>
+          <div class="hero-cta">
+            <a href="#contact" class="btn">Kom langs
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12 H19"/><path d="M13 6 L19 12 L13 18"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-foot" id="heroFoot">
+      <div class="pager"><span class="num" id="pagerNum">01</span> / 03</div>
+      <div class="bar"></div>
+      <div class="meta">
+        <span>Joan Muyskenweg 20, Amsterdam</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DIENST ===== -->
+  <section id="dienst" class="section" data-screen-label="Dienst">
+    <div class="section-head">
+      <div class="section-no">01 · de dienst</div>
+      <h2 class="h2">elke zondag, <span class="lt">10:30u.</span></h2>
+    </div>
+
+    <div class="dienst-grid">
+      <dl class="info-list">
+        <div class="row"><dt>Locatie</dt><dd>Van der Valk Hotel Amsterdam – Amstel<small>De Dam · 2<sup>e</sup> verdieping</small></dd></div>
+        <div class="row"><dt>Adres</dt><dd>Joan Muyskenweg 20<small>1096 CJ Amsterdam</small></dd></div>
+        <div class="row"><dt>Aanvang</dt><dd>Zondag · 10:30u<small>Inloop met koffie &amp; thee vanaf 10:00u</small></dd></div>
+        <div class="row"><dt>Parkeren</dt><dd>Gratis bij het hotel<small>Of 6 minuten lopen vanaf metro Overamstel</small></dd></div>
+        <div class="row"><dt>Live</dt><dd><a href="https://www.youtube.com/@GKPBNederland/streams" target="_blank" rel="noopener">YouTube livestream →</a><small>Mis je een dienst? Kijk terug.</small></dd></div>
+      </dl>
+
+      <div class="dienst-card">
+        <img src="assets/dienst-3.JPG" alt="LIFEHOUSE zondagdienst — gezamenlijke worship" style="object-fit: cover" />
+        <span class="badge"><span class="live"></span>Live op zondag</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== OVER ONS ===== -->
+  <section id="over-ons" class="section" data-screen-label="Over ons">
+    <div class="section-head">
+      <div class="section-no">02 · over ons</div>
+      <h2 class="h2">een familie<br/>onmisbaar voor <span class="lt">haar omgeving.</span></h2>
+    </div>
+
+    <div class="about-lead">
+      <img class="lead-img" src="assets/over-ons-3.JPG" alt="LIFEHOUSE Amsterdam — over ons" />
+      <p>LIFEHOUSE Amsterdam is een Christelijk evangelische kerk met Indonesische <em>roots</em>, waar elke generatie welkom is. We willen elk leven met Jezus Christus verbinden, samen groeien als familie en een positieve impact maken op onze naasten.</p>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <span class="n">01</span>
+        <div class="k">connect.</div>
+        <div class="v">Levens verbinden met Jezus — een ontmoeting die alles verandert.</div>
+        <div class="arr">↗</div>
+      </div>
+      <div class="pillar">
+        <span class="n">02</span>
+        <div class="k">grow.</div>
+        <div class="v">Samen groeien als familie — door woord, gebed en echte relaties.</div>
+        <div class="arr">↗</div>
+      </div>
+      <div class="pillar">
+        <span class="n">03</span>
+        <div class="k">impact.</div>
+        <div class="v">Een positieve impact maken op elk leven om ons heen.</div>
+        <div class="arr">↗</div>
+      </div>
+    </div>
+
+    <div class="tag-strip" style="margin-top:80px;display:none"></div>
+  </section>
+
+  <!-- ===== VOORGANGERS ===== -->
+  <section id="leiderschap" class="section" data-screen-label="Voorgangers">
+    <div class="section-head">
+      <div class="section-no">03 · voorgangers</div>
+      <h2 class="h2">wie ons <span class="lt">voorgaat.</span></h2>
+    </div>
+
+    <div class="pastors">
+      <article class="pastor">
+        <div class="avatars"><div class="av photo"><img src="assets/Tim-en-Clau.jpg" alt="Timothy & Claudia"/></div></div>
+        <div>
+          <div class="role">Lead Pastors · sinds 2018</div>
+          <div class="name">Timothy &amp; Claudia</div>
+          <div class="since">Lifehouse Amsterdam</div>
+        </div>
+        <p>Wij zijn gepassioneerd om een kerk te bouwen die midden in het leven staat — een plek waar je jezelf kunt zijn, groeit in geloof en samen het verschil maakt in je omgeving.</p>
+        <p>We dromen van een community die Jezus volgt en zichtbaar impact maakt. Met Zijn leiding willen we altijd gaan waar God wilt gaan <em>(GWGWTG)</em>. Bij LIFEHOUSE draait het niet om perfectie, maar om echte relaties, groei en een duidelijke missie.</p>
+        <div class="sig">— Welkom thuis. 💛</div>
+      </article>
+
+      <article class="pastor">
+        <div class="avatars"><div class="av photo"><img src="assets/John-en-Atie.jpg" alt="John & Atie"/></div></div>
+        <div>
+          <div class="role">Senior Pastors · oprichters 1994</div>
+          <div class="name">John &amp; Atie</div>
+          <div class="since">Mentors &amp; support</div>
+        </div>
+        <p>Oprichters van LIFEHOUSE Amsterdam (toen nog Air Hidup). Wat begon als een roeping naar de Indonesische community in Amsterdam, groeide uit tot een kerk waar mensen van alle achtergronden samenkomen.</p>
+        <p>Na jarenlang leiderschap zijn we nu op de achtergrond betrokken als mentors en support voor het team. We zijn dankbaar om te zien hoe de nieuwe generatie met visie en vuur doorgaat.</p>
+        <div class="sig">— Voel je thuis. ❤️</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== SOCIALS ===== -->
+  <section id="socials" class="section" data-screen-label="Socials">
+    <div class="section-head">
+      <div class="section-no">04 · socials</div>
+      <h2 class="h2">volg ons<br/><span class="lt">overal.</span></h2>
+    </div>
+
+    <div class="socials">
+      <a class="social" href="https://www.youtube.com/@GKPBNederland/streams" target="_blank" rel="noopener">
+        <div class="top">
+          <span class="plat"><svg class="brand" viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 7.2c-.25-.94-.99-1.68-1.93-1.93C18.88 4.8 12 4.8 12 4.8s-6.88 0-8.57.47c-.94.25-1.68.99-1.93 1.93C1.03 8.89 1.03 12 1.03 12s0 3.11.47 4.8c.25.94.99 1.68 1.93 1.93 1.69.47 8.57.47 8.57.47s6.88 0 8.57-.47c.94-.25 1.68-.99 1.93-1.93.47-1.69.47-4.8.47-4.8s0-3.11-.47-4.8zM9.75 15.27V8.73L15.5 12l-5.75 3.27z"/></svg><span class="platform">YouTube</span></span>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 L17 7"/><path d="M9 7 H17 V15"/></svg>
+        </div>
+        <div class="bottom"><div class="handle">LIFEHOUSE Nederland</div><div class="sub">Zondagdienst livestream volgen en terugzien</div></div>
+      </a>
+      <a class="social" href="https://www.facebook.com/lifehouse.amsterdam" target="_blank" rel="noopener">
+        <div class="top">
+          <span class="plat"><svg class="brand" viewBox="0 0 24 24" fill="currentColor"><path d="M15.12 8.04H17V5.14C16.67 5.1 15.55 5 14.25 5 11.54 5 9.69 6.66 9.69 9.7v2.34H7v3.24h2.69V23h3.3v-7.72h2.58l.41-3.24h-2.99V10.02c0-.94.26-1.58 1.61-1.58z"/></svg><span class="platform">Facebook</span></span>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 L17 7"/><path d="M9 7 H17 V15"/></svg>
+        </div>
+        <div class="bottom"><div class="handle">LIFEHOUSE Amsterdam</div><div class="sub">Updates en zondagdienst livestream</div></div>
+      </a>
+      <a class="social" href="https://www.instagram.com/lifehouseams/" target="_blank" rel="noopener">
+        <div class="top">
+          <span class="plat"><svg class="brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg><span class="platform">Instagram</span></span>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 L17 7"/><path d="M9 7 H17 V15"/></svg>
+        </div>
+        <div class="bottom"><div class="handle">@lifehouseams</div><div class="sub">Impressies van de kerk</div></div>
+      </a>
+      <a class="social" href="https://www.youtube.com/@LFHSWorship/" target="_blank" rel="noopener">
+        <div class="top">
+          <span class="plat"><svg class="brand" viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 7.2c-.25-.94-.99-1.68-1.93-1.93C18.88 4.8 12 4.8 12 4.8s-6.88 0-8.57.47c-.94.25-1.68.99-1.93 1.93C1.03 8.89 1.03 12 1.03 12s0 3.11.47 4.8c.25.94.99 1.68 1.93 1.93 1.69.47 8.57.47 8.57.47s6.88 0 8.57-.47c.94-.25 1.68-.99 1.93-1.93.47-1.69.47-4.8.47-4.8s0-3.11-.47-4.8zM9.75 15.27V8.73L15.5 12l-5.75 3.27z"/></svg><span class="platform">YouTube</span></span>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 17 L17 7"/><path d="M9 7 H17 V15"/></svg>
+        </div>
+        <div class="bottom"><div class="handle">LFHS Worship</div><div class="sub">Lofprijs en aanbiddingsmuziek</div></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== GEVEN ===== -->
+  <section id="geven" class="section" data-screen-label="Geven">
+    <div class="section-head">
+      <div class="section-no">05 · geven</div>
+      <h2 class="h2">samen <span class="lt">bouwen.</span></h2>
+    </div>
+
+    <p class="geven-intro">Een kerk is geen gebouw maar een gemeenschap die samen bouwt, ieder met wat hij of zij ontvangen heeft. <span class="ref">(1 Petrus 4:10)</span></p>
+    <div class="geven-cards">
+      <div class="geven-card">
+        <span class="label">Bouw mee met je middelen</span>
+        <p>Giften en tienden kunnen worden geschonken via:</p>
+        <div class="iban" id="ibanText">NL71 INGB 0005 5114 46</div>
+        <div class="row"><span class="small">t.n.v. LIFEHOUSE Amsterdam</span><button class="copy" id="copyIban" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:14px;height:14px"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15 V5 a2 2 0 0 1 2 -2 H15"/></svg><span id="copyLabel">Kopieer IBAN</span></button></div>
+      </div>
+      <div class="geven-card">
+        <span class="label">Bouw mee met je gaven</span>
+        <p>Help mee in een team zoals media &amp; techniek, gebed, dankoffer, crèche, etc.</p>
+        <p>Mail naar <a href="mailto:hello@lifehouse.nl">hello@lifehouse.nl</a> of praat erover op zondag.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="contact" data-screen-label="Contact">
+    <div class="section-head">
+      <div class="section-no">06 · contact</div>
+      <h2 class="h2">tot <span class="lt">zondag.</span></h2>
+    </div>
+
+    <div class="contact-grid">
+      <div class="col">
+        <h4>Locatie</h4>
+        <address>Van der Valk Hotel<br/>Amsterdam – Amstel<br/>De Dam · 2<sup>e</sup> verdieping<br/>Joan Muyskenweg 20<br/>1096 CJ Amsterdam</address>
+      </div>
+      <div class="col">
+        <h4>Wanneer</h4>
+        <p>Elke zondag<br/>10:30u — inloop 10:00u<br/><span style="color:#888">Gratis parkeren · 6 min vanaf metro Overamstel</span></p>
+      </div>
+      <div class="col">
+        <h4>Schrijf ons</h4>
+        <p><a href="mailto:hello@lifehouse.nl">hello@lifehouse.nl</a></p>
+        <a class="contact-cta" href="mailto:hello@lifehouse.nl">
+          Stuur een bericht
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:16px;height:16px"><path d="M5 12 H19"/><path d="M13 6 L19 12 L13 18"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-foot">
+      <span>© <span id="year"></span> LIFEHOUSE Amsterdam — een huis voor elke generatie.</span>
+      <span style="display:flex;gap:24px">
+        <a href="https://blog.lifehouse.nl" target="_blank" rel="noopener">Blog</a>
+        <a href="https://www.lifehouse.nl/privacyverklaring/" target="_blank" rel="noopener">Privacy</a>
+        <a href="#geven">ANBI</a>
+      </span>
+    </div>
+  </section>
+
+  <!-- ===== DRAWER ===== -->
+  <div class="drawer" id="drawer" role="dialog" aria-hidden="true">
+    <div class="bg" data-close></div>
+    <aside class="panel">
+      <div class="drawer-head">
+        <span class="brand"><img src="assets/logo.png" alt=""/><span>lifehouse</span></span>
+        <button class="drawer-close" data-close aria-label="Sluit menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:18px;height:18px"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>
+        </button>
+      </div>
+      <nav class="drawer-nav" aria-label="Volledig menu">
+        <a href="#home" data-close><span class="n">01</span>home</a>
+        <a href="#dienst" data-close><span class="n">02</span>de dienst</a>
+        <a href="#over-ons" data-close><span class="n">03</span>over ons</a>
+        <a href="#leiderschap" data-close><span class="n">04</span>voorgangers</a>
+        <a href="#socials" data-close><span class="n">05</span>socials</a>
+        <a href="#geven" data-close><span class="n">06</span>geven</a>
+        <a href="#contact" data-close><span class="n">07</span>contact</a>
+        <a href="https://www.lifehouse.nl/blog/" target="_blank" rel="noopener" data-close><span class="n">08</span>blog</a>
+      </nav>
+      <div class="drawer-foot">
+        <span>hello@lifehouse.nl</span>
+        <span>Joan Muyskenweg 20, Amsterdam</span>
+      </div>
+    </aside>
+  </div>
+
+<script>
+  // ===== Slider =====
+  const slides = document.querySelectorAll('.slide');
+  const heroFoot = document.getElementById('heroFoot');
+  const pagerNum = document.getElementById('pagerNum');
+  let cur = 0;
+  function show(i){
+    cur = (i + slides.length) % slides.length;
+    slides.forEach((s,idx)=>s.classList.toggle('active', idx===cur));
+    pagerNum.textContent = String(cur+1).padStart(2,'0');
+    heroFoot.classList.remove('s2','s3');
+    if(cur===1) heroFoot.classList.add('s2');
+    if(cur===2) heroFoot.classList.add('s3');
+  }
+  document.getElementById('prev').addEventListener('click', ()=>show(cur-1));
+  document.getElementById('next').addEventListener('click', ()=>show(cur+1));
+  // auto-advance
+  let autoT = setInterval(()=>show(cur+1), 7000);
+  ['prev','next'].forEach(id=>document.getElementById(id).addEventListener('click', ()=>{clearInterval(autoT)}));
+
+  // Show arrows only when hero is in view
+  const arrowsEl = document.querySelector('.arrows');
+  const heroEl = document.getElementById('home');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>arrowsEl.classList.toggle('visible', e.isIntersecting && e.intersectionRatio > 0.35));
+    }, {threshold:[0, 0.35, 0.6, 1]});
+    io.observe(heroEl);
+  } else {
+    arrowsEl.classList.add('visible');
+  }
+
+  // ===== Active nav on scroll =====
+  const navLinks = document.querySelectorAll('#nav a');
+  const sections = ['home','dienst','over-ons','geven','contact'].map(id=>document.getElementById(id));
+  function onScroll(){
+    const y = window.scrollY + 140;
+    let active = sections[0].id;
+    sections.forEach(s=>{ if(s && s.offsetTop <= y) active = s.id; });
+    navLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href') === '#'+active));
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // ===== Drawer =====
+  const drawer = document.getElementById('drawer');
+  document.getElementById('menuBtn').addEventListener('click', ()=>drawer.classList.add('open'));
+  drawer.querySelectorAll('[data-close]').forEach(el=>el.addEventListener('click', ()=>drawer.classList.remove('open')));
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') drawer.classList.remove('open'); });
+
+  // ===== Copy IBAN =====
+  const copyBtn = document.getElementById('copyIban');
+  const copyLabel = document.getElementById('copyLabel');
+  copyBtn.addEventListener('click', async ()=>{
+    try{
+      await navigator.clipboard.writeText('NL71INGB0005511446');
+      copyLabel.textContent = 'Gekopieerd ✓';
+      setTimeout(()=>copyLabel.textContent='Kopieer IBAN', 1800);
+    }catch(e){ copyLabel.textContent='IBAN: NL71INGB0005511446'; }
+  });
+
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // ===== Tweaks: accent color, density, hero slide =====
+  window.addEventListener('message', (e)=>{
+    if(!e.data || typeof e.data !== 'object') return;
+    if(e.data.type==='__activate_edit_mode'){ document.getElementById('tweaks-root').style.display='block'; }
+    if(e.data.type==='__deactivate_edit_mode'){ document.getElementById('tweaks-root').style.display='none'; }
+  });
+</script>
+
+<div id="tweaks-root" style="display:none"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "accent": "#d93636",
+    "density": "comfortable",
+    "showSlider": true
+  }/*EDITMODE-END*/;
+
+  function Tweaks(){
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    React.useEffect(()=>{
+      document.documentElement.style.setProperty('--red', t.accent);
+      const padY = t.density === 'tight' ? 'clamp(60px,8vw,120px)' : t.density === 'spacious' ? 'clamp(120px,16vw,220px)' : 'clamp(80px,12vw,180px)';
+      document.documentElement.style.setProperty('--pad-y', padY);
+      document.querySelector('.arrows').style.display = t.showSlider ? 'flex' : 'none';
+      document.getElementById('heroFoot').style.display = t.showSlider ? 'flex' : 'none';
+    }, [t]);
+    return (
+      <TweaksPanel title="Tweaks">
+        <TweakSection title="Stijl">
+          <TweakColor t={t} setTweak={setTweak} k="accent" label="Accent" options={['#d93636','#0a0a0a','#1f8a5b','#2a6fdb','#c9802b']} />
+          <TweakRadio t={t} setTweak={setTweak} k="density" label="Dichtheid" options={[{value:'tight',label:'Tight'},{value:'comfortable',label:'Comfort'},{value:'spacious',label:'Ruim'}]} />
+          <TweakToggle t={t} setTweak={setTweak} k="showSlider" label="Hero slider" />
+        </TweakSection>
+      </TweaksPanel>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<Tweaks/>);
+</script>
+</body>
+</html>

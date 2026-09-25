@@ -1,27 +1,25 @@
-import Navigation from "@/components/Navigation";
-import Hero from "@/components/Hero";
-import ServiceInfo from "@/components/ServiceInfo";
-import About from "@/components/About";
-import Leadership from "@/components/Leadership";
-import CommunityLinks from "@/components/CommunityLinks";
-import Giving from "@/components/Giving";
 import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+import Dienst from "@/components/Dienst";
+import Geven from "@/components/Geven";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import OverOns from "@/components/OverOns";
+import Socials from "@/components/Socials";
+import Voorgangers from "@/components/Voorgangers";
 
-export default function HomePage() {
+export default function Home() {
   return (
     <>
-      <Navigation />
+      <Header />
       <main>
         <Hero />
-        <ServiceInfo />
-        <About />
-        <Leadership />
-        <CommunityLinks />
-        <Giving />
+        <Dienst />
+        <OverOns />
+        <Voorgangers />
+        <Socials />
+        <Geven />
         <Contact />
       </main>
-      <Footer />
     </>
   );
 }

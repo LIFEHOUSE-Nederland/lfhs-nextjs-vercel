@@ -1,0 +1,77 @@
+.pastors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+@media (max-width: 980px) {
+  .pastors {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pastor {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  background: #fff;
+  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pastor:hover {
+  border-color: var(--ink);
+  transform: translateY(-3px);
+  box-shadow: 0 24px 40px -28px rgba(0, 0, 0, 0.15);
+}
+
+.photo {
+  width: 264px;
+  height: 264px;
+  max-width: 100%;
+  border-radius: 50%;
+  background: #eee;
+  border: 3px solid #fff;
+  overflow: hidden;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.role {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.name {
+  font-size: clamp(28px, 2.6vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.since {
+  font-size: 14px;
+  color: #888;
+}
+
+.body {
+  font-size: 16px;
+  color: #3a3a3a;
+  line-height: 1.55;
+}
+
+.sig {
+  margin-top: auto;
+  font-size: 14px;
+  font-style: italic;
+  color: #666;
+}

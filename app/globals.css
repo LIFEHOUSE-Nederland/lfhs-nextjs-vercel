@@ -1,25 +1,189 @@
 @import "tailwindcss";
 
+/* ===== Design tokens ===== */
 :root {
-  --color-brand-red: #d93636;
-  --color-brand-gray: #262626;
-  --color-brand-white: #ffffff;
+  --bg: #ffffff;
+  --ink: #0a0a0a;
+  --ink-2: #1a1a1a;
+  --muted: #8a8a8a;
+  --line: #e8e8e8;
+  --red: #d93636;
+  --gap: clamp(16px, 2vw, 28px);
+  --pad-x: clamp(20px, 5vw, 80px);
+  --pad-y: clamp(80px, 12vw, 180px);
   color-scheme: light;
 }
 
-html {
+/* ===== Reset ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01", "cv11";
   scroll-behavior: smooth;
 }
 
 body {
-  min-height: 100vh;
-  background: var(--color-brand-white);
-  color: var(--color-brand-gray);
-  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  font-size: 16px;
 }
 
-/* Voorkom dat de sticky nav de sectie-heading afdekt bij anchor navigatie */
-section[id],
-footer[id] {
-  scroll-margin-top: 56px;
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul {
+  list-style: none;
+}
+
+section {
+  scroll-margin-top: 72px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body {
+    scroll-behavior: auto;
+  }
+}
+
+/* ===== Gedeelde primitives =====
+   Klassen die in meerdere secties terugkomen. Sectie-specifieke styling
+   staat in de CSS Module naast het component. */
+
+.section {
+  padding: var(--pad-y) var(--pad-x);
+  position: relative;
+}
+
+.section + .section {
+  border-top: 1px solid var(--line);
+}
+
+.section-head {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr;
+  gap: 60px;
+  margin-bottom: 80px;
+  align-items: end;
+}
+
+@media (max-width: 880px) {
+  .section-head {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+}
+
+.section-no {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #9a9a9a;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-no::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: #9a9a9a;
+}
+
+.h2 {
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  font-size: clamp(40px, 6.5vw, 104px);
+}
+
+.h2 .lt {
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: -0.035em;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #3a3a3a;
+  margin-bottom: 28px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--ink);
+  display: inline-block;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background: #fff;
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn.ghost:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Superscript zoals in het prototype; Tailwind's reset zet sup op line-height 0. */
+sup {
+  font-size: smaller;
+  line-height: inherit;
+  vertical-align: super;
+  position: static;
 }

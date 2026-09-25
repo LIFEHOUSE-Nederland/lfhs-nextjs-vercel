@@ -1,0 +1,102 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 64px;
+  align-items: start;
+}
+
+@media (max-width: 980px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.list {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+
+.list dt {
+  font-weight: 600;
+  color: #777;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.list dd {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.list dd a {
+  border-bottom: 1px solid #ddd;
+}
+
+.list dd a:hover {
+  border-color: var(--ink);
+}
+
+.list dd small {
+  display: block;
+  color: #888;
+  font-weight: 400;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  aspect-ratio: 5/6;
+  background: #111;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 0.8s ease;
+}
+
+.card:hover img {
+  transform: scale(1.06);
+}
+
+.badge {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  z-index: 1;
+  background: #fff;
+  color: #111;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 4px rgba(217, 54, 54, 0.15);
+}
