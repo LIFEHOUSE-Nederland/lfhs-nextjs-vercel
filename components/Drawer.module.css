@@ -1,0 +1,128 @@
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.panel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: min(440px, 90vw);
+  background: #fff;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.7, 0.05, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer.open {
+  pointer-events: auto;
+}
+
+.drawer.open .bg {
+  opacity: 1;
+}
+
+.drawer.open .panel {
+  transform: translateX(0);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px var(--pad-x);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.brand span {
+  display: inline-block;
+  transform: translateY(1px);
+}
+
+.close {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--ink);
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.close:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+.close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.nav {
+  padding: 24px var(--pad-x) 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.nav a {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  padding: 14px 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.nav a .n {
+  font-size: 13px;
+  font-weight: 600;
+  color: #9a9a9a;
+  letter-spacing: 0.06em;
+  width: 28px;
+}
+
+.nav a:hover {
+  color: var(--red);
+}
+
+.foot {
+  padding: 24px var(--pad-x);
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: #777;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}

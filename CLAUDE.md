@@ -21,22 +21,33 @@ One-pager website voor een christelijke kerkgemeenschap. Vervangt een trage Word
 
 ```
 app/
-├── layout.tsx          # Root layout + metadata + JSON-LD
+├── layout.tsx          # Root layout + Manrope (next/font) + metadata + JSON-LD
 ├── page.tsx            # One-pager (alle secties samengevoegd)
-└── globals.css         # Tailwind imports + design tokens
+├── globals.css         # Tailwind import + design tokens + gedeelde primitives
+├── robots.ts
+└── sitemap.ts
 components/
-├── Hero.tsx            # Welkom + hoofdboodschap + quote
-├── ServiceInfo.tsx     # Zondagsdienst, locatie en livestream
-├── About.tsx           # Over ons, visie, missie (CONNECT GROW IMPACT)
-├── Leadership.tsx      # Voorgangers en generatieverhaal
-├── CommunityLinks.tsx  # Socials en blog verwijzingen
-├── Giving.tsx          # ANBI, geven en documenten
-├── Contact.tsx         # Bereikbaarheid en bezoekinformatie
-├── Footer.tsx          # Footer met privacy en blog link
-└── Navigation.tsx      # Sticky nav (optioneel)
+├── Header.tsx          # Sticky header met scroll-spy (client)
+├── Drawer.tsx          # Menu-drawer (client)
+├── Hero.tsx            # Slider met 3 slides (client)
+├── Dienst.tsx          # 01 · de dienst
+├── OverOns.tsx         # 02 · over ons (connect / grow / impact)
+├── Voorgangers.tsx     # 03 · voorgangers
+├── Socials.tsx         # 04 · socials
+├── Geven.tsx           # 05 · geven
+├── CopyIban.tsx        # Kopieer-IBAN knop (client)
+├── Contact.tsx         # 06 · contact + footer
+├── icons.tsx           # Inline SVG icons
+└── *.module.css        # Sectie-styling als CSS Modules
+content/
+└── site.ts             # Alle teksten, links en hero-slides
 lib/
-└── metadata.ts         # SEO metadata helpers
+└── emphasis.tsx        # *cursief* en 2^e^ superscript in content-strings
 ```
+
+Styling: design tokens en gedeelde primitives (`.section`, `.h2`, `.btn`, …) staan in
+`globals.css`; sectie-specifieke styling staat in een CSS Module naast het component.
+Bron van waarheid voor het ontwerp is `design/index.html` + `design/README.md`.
 
 ---
 

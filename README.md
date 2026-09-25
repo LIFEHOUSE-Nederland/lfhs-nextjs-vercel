@@ -47,9 +47,39 @@ Fallback:
 | `CNAME` (www) | `cname.vercel-dns.com` | www → Vercel |
 | `A` of `CNAME` (blog) | Vimexx IP / WordPress host | `blog.kerk.nl` → WordPress |
 
+## Projectstructuur
+
+De one-pager is nagebouwd vanuit de Claude Design bestanden in `design/`
+(`design/index.html` als referentie, `design/README.md` voor de design tokens).
+
+```
+app/
+├── layout.tsx          # Manrope via next/font, metadata, JSON-LD
+├── page.tsx            # Sectievolgorde van de one-pager
+├── globals.css         # Design tokens (:root), reset en gedeelde primitives
+├── robots.ts
+└── sitemap.ts
+components/
+├── Header.tsx          # Sticky header + scroll-spy (client)
+├── Drawer.tsx          # Menu met Escape, scroll-lock en focus trap (client)
+├── Hero.tsx            # Slider met 3 slides en autoplay (client)
+├── Dienst.tsx          # 01 · de dienst
+├── OverOns.tsx         # 02 · over ons (connect / grow / impact)
+├── Voorgangers.tsx     # 03 · voorgangers
+├── Socials.tsx         # 04 · socials
+├── Geven.tsx           # 05 · geven
+├── CopyIban.tsx        # Kopieer-IBAN knop (client)
+├── Contact.tsx         # 06 · contact + footer
+├── icons.tsx           # Inline SVG icons
+└── *.module.css        # Sectie-styling als CSS Modules
+content/site.ts         # Alle teksten, links en slides
+lib/emphasis.tsx        # *cursief* en 2^e^ superscript in content-strings
+public/assets/          # Afbeeldingen uit design/assets (lowercase, gecomprimeerd)
+```
+
 ## Ontwikkelsetup
 
-Deze repository is opgezet als een minimale Next.js 15 App Router app met static export. Er is op dit moment geen database, geen server-side runtime en geen verplichte `.env` nodig om lokaal te kunnen ontwikkelen.
+Deze repository is opgezet als een Next.js 15 App Router app met static export. Er is op dit moment geen database, geen server-side runtime en geen verplichte `.env` nodig om lokaal te kunnen ontwikkelen.
 
 ### Wat je lokaal nodig hebt
 
@@ -103,6 +133,7 @@ npm run build
 - Na `git pull` of het switchen naar een andere branch is het slim om opnieuw `npm install` te draaien als `package.json` of `package-lock.json` is gewijzigd
 - Er is geen `npm start` script ingericht, omdat dit project bedoeld is als statische export en niet als Node-server
 - De build-output staat in `out/`; dat is de map die gebruikt kan worden voor static hosting
+- Draai `npm run build` niet terwijl `npm run dev` actief is: beide schrijven naar `.next/` en de dev-server serveert daarna kapotte CSS. Stop eerst de dev-server, of verwijder `.next/` en start opnieuw
 - Als `npm run dev` lokaal niet start, controleer dan eerst of poort `3000` al in gebruik is
 
 ## Projectdoelstellingen
