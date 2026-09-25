@@ -47,7 +47,7 @@ lib/
 
 Styling: design tokens en gedeelde primitives (`.section`, `.h2`, `.btn`, …) staan in
 `globals.css`; sectie-specifieke styling staat in een CSS Module naast het component.
-Bron van waarheid voor het ontwerp is `design/index.html` + `design/README.md`.
+Bron van waarheid voor het ontwerp is `design/design/index.html` + `design/README.md`.
 
 ---
 

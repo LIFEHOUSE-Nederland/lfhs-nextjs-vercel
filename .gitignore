@@ -5,3 +5,10 @@ node_modules/
 out/
 npm-debug.log*
 tsconfig.tsbuildinfo
+
+# Secrets — nooit committen
+.env
+.env.*
+!.env.example
+*.pem
+*.key

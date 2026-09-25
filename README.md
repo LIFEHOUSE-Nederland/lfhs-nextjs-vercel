@@ -50,7 +50,9 @@ Fallback:
 ## Projectstructuur
 
 De one-pager is nagebouwd vanuit de Claude Design bestanden in `design/`
-(`design/index.html` als referentie, `design/README.md` voor de design tokens).
+(`design/design/index.html` als referentie, `design/README.md` voor de design tokens).
+De originele designfoto's zitten niet in deze repo; het prototype rendert daardoor
+zonder afbeeldingen. De foto's die de site zelf toont staan in `public/assets/`.
 
 ```
 app/
@@ -74,7 +76,7 @@ components/
 └── *.module.css        # Sectie-styling als CSS Modules
 content/site.ts         # Alle teksten, links en slides
 lib/emphasis.tsx        # *cursief* en 2^e^ superscript in content-strings
-public/assets/          # Afbeeldingen uit design/assets (lowercase, gecomprimeerd)
+public/assets/          # Afbeeldingen van de site (lowercase, gecomprimeerd)
 ```
 
 ## Ontwikkelsetup
@@ -142,3 +144,24 @@ npm run build
 - **Kosten**: €0–5/maand (Vercel Free Tier)
 - **Veiligheid**: Minimaal aanvalsoppervlak dankzij statische bestanden
 - **Beheer**: WordPress voor contentbeheer blog door niet-technische teamleden
+
+## Bijdragen
+
+Deze repository wordt beheerd door LIFEHOUSE Amsterdam ([@Jonathyan](https://github.com/Jonathyan)).
+De code staat publiek zodat anderen kunnen meekijken en leren; het is geen project
+dat actief bijdragen van buiten zoekt.
+
+- **Iets gevonden dat niet klopt?** Open een issue met een korte beschrijving en,
+  als het een weergaveprobleem is, een screenshot plus browser en schermbreedte.
+- **Pull requests** zijn welkom voor duidelijke bugfixes. Draai vóór het indienen
+  `npm run typecheck && npm run lint && npm run build`. Direct pushen naar `main`
+  is geblokkeerd; alles loopt via een PR.
+- **Beveiligingsprobleem?** Mail naar hello@lifehouse.nl in plaats van een
+  publiek issue te openen.
+
+### Let op: niet alles is vrij herbruikbaar
+
+De code staat onder MIT, maar de foto's in `public/assets/`, het logo en de
+teksten niet. Dat zijn foto's van herkenbare kerkbezoekers, opgenomen om
+uitsluitend deze site te kunnen bouwen. Zie [LICENSE](LICENSE) voor de
+voorwaarden.

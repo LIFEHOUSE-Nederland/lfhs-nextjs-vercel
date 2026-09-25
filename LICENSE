@@ -1,0 +1,64 @@
+Copyright (c) 2026 LIFEHOUSE Amsterdam
+
+Deze repository bevat twee soorten materiaal met verschillende voorwaarden.
+This repository contains two kinds of material under different terms.
+
+================================================================================
+1. BRONCODE — MIT License / Source code — MIT License
+================================================================================
+
+Van toepassing op alle broncode en configuratie: `app/`, `components/`,
+`content/`, `lib/`, `docs/` en de configuratiebestanden in de hoofdmap.
+
+Applies to all source code and configuration: `app/`, `components/`,
+`content/`, `lib/`, `docs/` and the configuration files in the root.
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+2. BEELDMATERIAAL EN CONTENT — Alle rechten voorbehouden
+   Images and content — All rights reserved
+================================================================================
+
+De MIT-licentie hierboven geldt NIET voor:
+
+- Alle afbeeldingen in `public/assets/` — dit zijn foto's van herkenbare
+  personen, gemaakt tijdens diensten van LIFEHOUSE Amsterdam. Ze zijn hier
+  uitsluitend opgenomen om deze specifieke website te kunnen bouwen en
+  uitrollen.
+- Het LIFEHOUSE-logo en alle merknamen.
+- Alle redactionele teksten in `content/site.ts` en `design/`.
+
+Hergebruik, kopiëren, aanpassen of verspreiden van dit materiaal — in welke
+vorm en voor welk doel dan ook, commercieel of niet — is niet toegestaan
+zonder voorafgaande schriftelijke toestemming van LIFEHOUSE Amsterdam.
+
+Neem contact op via hello@lifehouse.nl.
+
+--------------------------------------------------------------------------------
+
+The MIT license above does NOT apply to the images in `public/assets/`, the
+LIFEHOUSE logo and brand names, or the editorial text in `content/site.ts` and
+`design/`. The images depict identifiable individuals photographed during
+LIFEHOUSE Amsterdam services and are included solely to build and deploy this
+specific website. Reuse, copying, modification or redistribution in any form
+and for any purpose, commercial or otherwise, requires prior written permission
+from LIFEHOUSE Amsterdam. Contact hello@lifehouse.nl.
